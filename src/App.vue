@@ -1,30 +1,33 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <router-view></router-view>
+<FooterMusic/>
 </template>
-
-<style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+<script>
+import FooterMusic from './components/musicList/FooterMusic.vue'
+export default {
+  components: {
+    FooterMusic
+  },
 }
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+</script>
+<style lang="less">
+@import '../src/assets/font/font.css';
+#app {
+  font-family: '站酷仓耳渔阳体-W03', '问藏书房', '千图雪花体', 'PF频凡胡涂体',
+    '宋体', '黑体';
+  // font-weight: 8rem;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.iconfont {
+  width: 0.5rem;
+  height: 0.5rem;
+}
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>
