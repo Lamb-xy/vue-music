@@ -15,8 +15,7 @@
             p-id="3874"
           ></path>
         </svg>
-        <span
-        v-if="songs"
+        <span v-if="songs"
           >播放全部<span>(共{{ songs.length }}首)</span></span
         >
       </div>
@@ -63,7 +62,6 @@
           >
             <path
               d="M1024 1024H486.4v-1.28C215.6032 1009.28 0 786.1248 0 512 0 229.2224 229.2224 0 512 0s512 229.2224 512 512c0 203.0848-118.5536 378.0352-289.9456 460.8H1024v51.2z m-51.2-512c0-242.3808-218.4192-460.8-460.8-460.8S51.2 269.6192 51.2 512s218.4192 460.8 460.8 460.8 460.8-218.4192 460.8-460.8zM384 768a128 128 0 1 1 256.0256 0.0256A128 128 0 0 1 384 768z m204.8 0a76.8 76.8 0 1 0-153.6 0 76.8 76.8 0 0 0 153.6 0z m179.2-384a128 128 0 1 1-0.0256 256.0256A128 128 0 0 1 768 384z m0 204.8a76.8 76.8 0 1 0 0-153.6 76.8 76.8 0 0 0 0 153.6z m-256-204.8a128 128 0 1 1 0.0256-256.0256A128 128 0 0 1 512 384z m0-204.8a76.8 76.8 0 1 0 0 153.6 76.8 76.8 0 0 0 0-153.6zM256 640a128 128 0 1 1 0.0256-256.0256A128 128 0 0 1 256 640z m0-204.8a76.8 76.8 0 1 0 0 153.6 76.8 76.8 0 0 0 0-153.6z"
-              
               p-id="4017"
             ></path>
           </svg>
@@ -74,7 +72,6 @@
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             p-id="2282"
-
           >
             <path
               d="M256 448a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m256 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z m256 0a64 64 0 1 1 0 128 64 64 0 0 1 0-128z"
@@ -87,23 +84,19 @@
   </div>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 // import { mapMutations } from 'vuex';
 export default {
   setup(props) {
-    console.log(props)
-    function playMusic(i) {}
-    return {
-      playMusic,
-    }
+  },
+  methods: {
+    playMusic(i) {
+      this.updatePlayList(this.songs)
+      this.updatePlayListIndex(i)
+    },
+    ...mapMutations(['updatePlayList','updatePlayListIndex']),
   },
   props: ['songs', 'subscribedCount'],
-  //   methods:{
-  //     playMusic:function(i){
-  //       this.updatePlayList(this.songs)
-  //       this.updatePlayListIndex(i)
-  //     },
-  //     ...mapMutations(['updatePlayList','updatePlayListIndex'])
-  //   }
 }
 </script>
 <style lang="less" scoped>
@@ -133,9 +126,9 @@ export default {
       justify-content: space-around;
       align-items: center;
       .icon {
-        width: .5rem;
-        height: .5rem;
-        fill:#ccc;
+        width: 0.5rem;
+        height: 0.5rem;
+        fill: #ccc;
         stroke: #333333;
         stroke-width: 20;
       }
