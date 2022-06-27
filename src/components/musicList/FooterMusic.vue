@@ -1,12 +1,16 @@
 <template>
   <div class="footerMusic">
-    <div class="footerLeft">
+    <div class="footerLeft" @click="updateDetailShow">
       <img :src="playList[playListIndex].al.picUrl" alt="" />
       <div>
         <p>{{ playList[playListIndex].al.name }}</p>
         <span>横滑来切换上下歌曲哦~</span>
       </div>
     </div>
+    <van-popup v-model:show="detailShow" position="right" :style="{ height: '100%' ,width: '100%'}">
+        <MusicDetail :musicData="playList[playListIndex]" :play="play"/>
+    </van-popup>
+
     <div class="footerRight">
       <svg
         @click="play"
@@ -58,8 +62,7 @@
       </svg>
     </div>
     <audio
-      ref="audio"
-      controls
+    ref="audio"
       :src="`https://music.163.com/song/media/outer/url?id=${playList[playListIndex].id}.mp3`"
     ></audio>
   </div>
@@ -67,24 +70,46 @@
 
 <script>
 import { mapMutations, mapState } from 'vuex'
+import MusicDetail from './MusicDetail'
 
 export default {
+  components: { MusicDetail },
   name: 'FooterMusic',
   computed: {
-    ...mapState(['playList', 'playListIndex', 'isPlay']),
+    ...mapState(['playList', 'playListIndex', 'isPlay','detailShow']),
+  },
+  updated(){
+    this.$store.dispatch('getLyric', this.playList[this.playListIndex].id);
   },
   mounted() {
-    console.log(this.$refs)
+    this.$store.dispatch('getLyric', this.playList[this.playListIndex].id);
+    
+  },
+  watch:{
+    playListIndex(){
+        //监听播放列表下标的改变
+        this.$refs.audio.autoplay=true
+        if(this.$refs.audio.paused){
+            this.updateIsPlay(true)
+        }
+    },
+    playList(){
+        if(this.isPlay==false){
+            this.$refs.audio.autoplay=true
+            this.updateIsPlay(true)
+
+        }
+    }
   },
   methods: {
     play() {
       if (this.$refs.audio.paused) {
         this.$refs.audio.play()
-        this.changeIsPlay(true)
+        this.updateIsPlay(true)
         this.updateTime() //播放就调用函数进行传值
       } else {
         this.$refs.audio.pause()
-        this.changeIsPlay(false)
+        this.updateIsPlay(false)
         clearInterval(this.interVal) //暂停清除定时器
       }
     },
@@ -96,8 +121,8 @@ export default {
         this.updateCurrentTime(this.$refs.audio.currentTime)
       }, 1000)
     },
-    ...mapMutations(['changeIsPlay',"updateCurrentTime",
-      "updateDuration"]),
+    ...mapMutations(['updateIsPlay',"updateCurrentTime",
+      "updateDuration","updateDetailShow"]),
   },
 }
 </script>
